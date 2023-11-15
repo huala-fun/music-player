@@ -13,11 +13,7 @@
     </div>
     <div class="center">
       <router-link class="link" to="/">{{ $t("nav.home") }}</router-link>
-      <n-dropdown
-        trigger="hover"
-        :options="discoverOptions"
-        @select="menuSelect"
-      >
+      <n-dropdown trigger="hover" :options="discoverOptions" @select="menuSelect">
         <router-link class="link" to="/discover">
           {{ $t("nav.discover") }}
         </router-link>
@@ -37,31 +33,15 @@
         </n-button>
       </n-dropdown>
       <!-- 下拉菜单 -->
-      <n-dropdown
-        placement="bottom-end"
-        :show="showDropdown"
-        :show-arrow="true"
-        :options="dropdownOptions"
-        :on-clickoutside="closeDropdown"
-        @select="dropdownSelect"
-      >
-        <n-avatar
-          class="avatar"
-          round
-          size="small"
-          :src="
-            user.getUserData.avatarUrl
-              ? user.getUserData.avatarUrl.replace(/^http:/, 'https:') +
-                '?param=60y60'
-              : '/images/ico/user-filling.svg'
-          "
-          :img-props="{ class: 'avatarImg' }"
-          fallback-src="/images/ico/user-filling.svg"
-          @click="showDropdown = !showDropdown"
-        />
+      <n-dropdown placement="bottom-end" :show="showDropdown" :show-arrow="true" :options="dropdownOptions"
+        :on-clickoutside="closeDropdown" @select="dropdownSelect">
+        <n-avatar class="avatar" round size="small" :src="user.getUserData.avatarUrl
+            ? user.getUserData.avatarUrl.replace(/^http:/, 'https:') +
+            '?param=60y60'
+            : '/images/ico/user-filling.svg'
+          " :img-props="{ class: 'avatarImg' }" fallback-src="/images/ico/user-filling.svg"
+          @click="showDropdown = !showDropdown" />
       </n-dropdown>
-      <!-- 关于本站 -->
-      <AboutSite ref="aboutSiteRef" />
     </div>
   </nav>
 </template>
@@ -86,7 +66,6 @@ import {
 import { userStore, settingStore, siteStore } from "@/store";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import AboutSite from "@/components/DataModal/AboutSite.vue";
 import SearchInp from "@/components/SearchInp/index.vue";
 
 const { t } = useI18n();
@@ -94,7 +73,6 @@ const router = useRouter();
 const user = userStore();
 const site = siteStore();
 const setting = settingStore();
-const aboutSiteRef = ref(null);
 const timeOut = ref(null);
 const logoUrl = import.meta.env.VITE_SITE_LOGO;
 
@@ -140,7 +118,7 @@ const userDataRender = () => {
         style: "margin-right: 12px",
         src: user.userLogin
           ? user.getUserData.avatarUrl.replace(/^http:/, "https:") +
-            "?param=60y60"
+          "?param=60y60"
           : "/images/ico/user-filling.svg",
         fallbackSrc: "/images/ico/user-filling.svg",
       }),
@@ -166,19 +144,19 @@ const userDataRender = () => {
                 user.userLogin
                   ? Object.keys(user.getUserOtherData).length
                     ? h(
-                        NProgress,
-                        {
-                          height: 4,
-                          type: "line",
-                          percentage:
-                            user.getUserOtherData.level.progress * 100,
-                          color: setting.themeData.primaryColor,
-                        },
-                        {
-                          default: () =>
-                            "Lv." + user.getUserOtherData.level.level,
-                        }
-                      )
+                      NProgress,
+                      {
+                        height: 4,
+                        type: "line",
+                        percentage:
+                          user.getUserOtherData.level.progress * 100,
+                        color: setting.themeData.primaryColor,
+                      },
+                      {
+                        default: () =>
+                          "Lv." + user.getUserOtherData.level.level,
+                      }
+                    )
                     : t("nav.avatar.loginError")
                   : t("nav.avatar.notLoginSubtitle"),
             }
@@ -214,33 +192,33 @@ const changeDiscoverOptions = () => {
 const changeUserOptions = (val) => {
   userOptions.value = val
     ? [
-        {
-          label: t("nav.userChildren.playlist"),
-          key: "/user/playlists",
-        },
-        {
-          label: t("nav.userChildren.like"),
-          key: "/user/like",
-        },
-        {
-          label: t("nav.userChildren.album"),
-          key: "/user/album",
-        },
-        {
-          label: t("nav.userChildren.artist"),
-          key: "/user/artists",
-        },
-        {
-          label: t("nav.userChildren.cloud"),
-          key: "/user/cloud",
-        },
-      ]
+      {
+        label: t("nav.userChildren.playlist"),
+        key: "/user/playlists",
+      },
+      {
+        label: t("nav.userChildren.like"),
+        key: "/user/like",
+      },
+      {
+        label: t("nav.userChildren.album"),
+        key: "/user/album",
+      },
+      {
+        label: t("nav.userChildren.artist"),
+        key: "/user/artists",
+      },
+      {
+        label: t("nav.userChildren.cloud"),
+        key: "/user/cloud",
+      },
+    ]
     : [
-        {
-          label: t("nav.userChildren.login"),
-          key: "/login",
-        },
-      ];
+      {
+        label: t("nav.userChildren.login"),
+        key: "/login",
+      },
+    ];
 };
 const changeDropdownOptions = () => {
   dropdownOptions.value = [
@@ -309,12 +287,7 @@ const changeDropdownOptions = () => {
           }
         );
       },
-    },
-    {
-      label: t("nav.avatar.about"),
-      key: "about",
-      icon: renderIcon(h(Info)),
-    },
+    }
   ];
 };
 
@@ -386,10 +359,6 @@ const dropdownSelect = (key) => {
         router.push("/login");
       }
       break;
-    // 关于
-    case "about":
-      aboutSiteRef.value.openAboutSite();
-      break;
     default:
       break;
   }
@@ -436,75 +405,91 @@ nav {
   align-items: center;
   max-width: 1400px;
   margin: 0 auto;
+
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s ease;
   }
+
   .fade-enter-active {
     transition-delay: 0.5s;
   }
+
   .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
   }
+
   .left {
     flex: 1;
     max-width: 300px;
     display: flex;
     flex-direction: row;
     align-items: center;
+
     @media (max-width: 990px) {
       flex: initial;
     }
+
     .logo {
       width: 30px;
       height: 30px;
       margin-right: 12px;
       transition: all 0.3s;
       cursor: pointer;
+
       img {
         width: 100%;
         height: 100%;
       }
+
       @media (min-width: 640px) {
         &:hover {
           transform: scale(1.15);
         }
       }
+
       &:active {
         transform: scale(1);
       }
     }
+
     .controls {
       display: flex;
       flex-direction: row;
       align-items: center;
+
       .n-icon {
         margin: 0 4px;
         border-radius: 8px;
         padding: 4px;
         cursor: pointer;
         transition: all 0.3s;
+
         @media (min-width: 640px) {
           &:hover {
             background-color: var(--n-border-color);
           }
         }
+
         &:active {
           transform: scale(0.95);
         }
       }
     }
   }
+
   .center {
     flex: 1;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
     @media (max-width: 768px) {
       display: none;
     }
+
     .link {
       display: block;
       text-decoration: none;
@@ -514,10 +499,12 @@ nav {
       border-radius: 8px;
       transition: all 0.3s;
       cursor: pointer;
+
       &:hover {
         background-color: var(--main-color);
         color: rgba(255, 255, 255, 0.9);
       }
+
       &:active {
         transform: scale(0.95);
       }
@@ -528,6 +515,7 @@ nav {
       color: rgba(255, 255, 255, 0.9);
     }
   }
+
   .right {
     flex: 1;
     max-width: 300px;
@@ -535,10 +523,12 @@ nav {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+
     @media (max-width: 520px) {
       position: absolute;
       right: 12px;
     }
+
     .avatar {
       width: 30px;
       min-width: 30px;
@@ -547,13 +537,14 @@ nav {
       box-shadow: 0 4px 12px -2px rgb(0 0 0 / 10%);
       cursor: pointer;
     }
+
     .mb-menu {
       margin-left: 12px;
       display: none;
+
       @media (max-width: 768px) {
         display: flex;
       }
     }
   }
-}
-</style>
+}</style>

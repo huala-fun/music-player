@@ -4,74 +4,38 @@
       <img src="/images/logo/favicon.png" alt="logo" />
       <n-text>{{ $t("login.login", { name: siteTitle }) }}</n-text>
     </div>
-    <n-tabs
-      animated
-      class="content"
-      type="segment"
-      justify-content="space-evenly"
-      :pane-style="{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: '30px',
-      }"
-      @update:value="tabChange"
-    >
+    <n-tabs animated class="content" type="segment" justify-content="space-evenly" :pane-style="{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      paddingTop: '30px',
+    }" @update:value="tabChange">
       <n-tab-pane name="qr" :tab="$t('login.qr')">
         <n-card class="qr-img">
-          <n-skeleton
-            v-if="!qrImg"
-            style="min-width: 180px"
-            height="180px"
-            width="180px"
-          />
-          <QrcodeVue
-            v-else
-            class="qr"
-            :value="qrImg"
-            :size="180"
-            level="H"
-            background="#00000000"
-            :foreground="setting.themeData.primaryColor"
-          />
+          <n-skeleton v-if="!qrImg" style="min-width: 180px" height="180px" width="180px" />
+          <QrcodeVue v-else class="qr" :value="qrImg" :size="180" level="H" background="#00000000"
+            :foreground="setting.themeData.primaryColor" />
         </n-card>
         <span class="tip">{{ loginStatus }}</span>
       </n-tab-pane>
       <n-tab-pane name="phone" :tab="$t('login.phone')">
-        <n-form
-          class="phone"
-          ref="phoneFormRef"
-          :model="phoneFormData"
-          :rules="phoneFormRules"
-          :show-label="false"
-        >
+        <n-form class="phone" ref="phoneFormRef" :model="phoneFormData" :rules="phoneFormRules" :show-label="false">
           <n-form-item path="phone">
-            <n-input
-              placeholder="请输入手机号"
-              v-model:value="phoneFormData.phone"
-            >
+            <n-input placeholder="请输入手机号" v-model:value="phoneFormData.phone">
               <template #prefix>
                 <n-icon :component="PhoneAndroidRound" />
               </template>
             </n-input>
           </n-form-item>
           <n-form-item path="captcha">
-            <n-input-number
-              style="width: 100%"
-              placeholder="请输入短信验证码"
-              v-model:value="phoneFormData.captcha"
-              :show-button="false"
-            >
+            <n-input-number style="width: 100%" placeholder="请输入短信验证码" v-model:value="phoneFormData.captcha"
+              :show-button="false">
               <template #prefix>
                 <n-icon :component="PasswordRound" />
               </template>
             </n-input-number>
-            <n-button
-              type="primary"
-              style="margin-left: 12px"
-              :disabled="captchaDisabled"
-              @click="getCaptcha(phoneFormData.phone)"
-            >
+            <n-button type="primary" style="margin-left: 12px" :disabled="captchaDisabled"
+              @click="getCaptcha(phoneFormData.phone)">
               {{ captchaText }}
             </n-button>
           </n-form-item>
@@ -81,14 +45,6 @@
             </n-button>
           </n-form-item>
         </n-form>
-      </n-tab-pane>
-      <n-tab-pane name="email" :tab="$t('login.email')">
-        <n-alert
-          style="width: 100%; margin-top: -20px; margin-bottom: 12px"
-          type="warning"
-        >
-          {{ $t("login.canNotUse") }}
-        </n-alert>
       </n-tab-pane>
     </n-tabs>
   </div>
@@ -194,7 +150,6 @@ const checkQrState = (key) => {
   qrCheckInterval.value = setInterval(() => {
     if (!key) return false;
     checkQr(key).then((res) => {
-      console.log(res);
       if (res.code == 800) {
         getQrKeyData();
         loginStateMessage.value = null;
@@ -223,7 +178,7 @@ const getCaptcha = (data) => {
   phoneFormRef.value?.validate(
     (errors) => {
       if (errors) {
-      $message.error(t("general.message.needCheck"));
+        $message.error(t("general.message.needCheck"));
       } else {
         console.log(data + "发送验证码");
         sentCaptcha(data).then((res) => {
@@ -329,46 +284,56 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .title {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     img {
       width: 80px;
       height: 80px;
       margin-bottom: 20px;
     }
+
     span {
       font-size: 26px;
       font-weight: bold;
     }
   }
+
   .content {
     width: 300px;
     margin-top: 30px;
+
     .qr-img {
       width: 220px;
       height: 220px;
       border-radius: 8px;
       background-color: #fff;
+
       :deep(.n-card__content) {
         display: flex;
         align-items: center;
         justify-content: center;
+
         .n-skeleton {
           border-radius: 8px;
         }
       }
     }
+
     .tip {
       margin: 12px 0;
       opacity: 0.8;
     }
+
     .phone {
       width: 100%;
       padding: 0 4px;
       box-sizing: border-box;
     }
+
     :deep(.n-input) {
       .n-input__prefix {
         margin-right: 8px;
