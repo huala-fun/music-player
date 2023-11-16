@@ -46,7 +46,6 @@ import { useI18n } from "vue-i18n";
 import Provider from "@/components/Provider/index.vue";
 import Nav from "@/components/Nav/index.vue";
 import Player from "@/components/Player/index.vue";
-import packageJson from "@/../package.json";
 
 const { t } = useI18n();
 const music = musicStore();

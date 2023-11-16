@@ -118,6 +118,10 @@ export default {
     unableToDelete: "Default playlist cannot be deleted",
     collection: "Add {name} to Collection",
     cancelCollection: "Remove {name} from Collection",
+    fmTrash: "Remove {name} from private FM to trash can",
+    nextRound: "Next Song",
+    prevRound: "Prev Song",
+    pause: "Pause playback",
   },
   // General
   general: {

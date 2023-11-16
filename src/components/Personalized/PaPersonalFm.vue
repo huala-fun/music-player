@@ -6,8 +6,7 @@
       :style="`background-image: url(${music.getPersonalFmData.album.picUrl.replace(
         /^http:/,
         'https:'
-      )}?param=300y300)`"
-    >
+      )}?param=300y300)`">
       <div class="gray" />
       <img
         class="pic"
@@ -15,20 +14,17 @@
           music.getPersonalFmData.album.picUrl.replace(/^http:/, 'https:') +
           '?param=300y300'
         "
-        alt="pic"
-      />
+        alt="pic" />
       <div class="data">
         <div class="info">
           <span
             class="name text-hidden"
-            @click="router.push(`/song?id=${music.getPersonalFmData.id}`)"
-          >
+            @click="router.push(`/song?id=${music.getPersonalFmData.id}`)">
             {{ music.getPersonalFmData.name }}
           </span>
           <AllArtists
             class="text-hidden"
-            :artistsData="music.getPersonalFmData.artist"
-          />
+            :artistsData="music.getPersonalFmData.artist" />
         </div>
         <div class="controls">
           <n-icon
@@ -41,20 +37,30 @@
                   : PlayCircleFilled
                 : PlayCircleFilled
             "
-            @click="fmPlayOrPause"
-          />
-          <n-icon
-            class="next"
-            size="30"
-            :component="SkipNextRound"
-            @click="fmNext"
-          />
-          <n-icon
-            class="dislike"
-            size="20"
-            :component="ThumbDownRound"
-            @click="music.setFmDislike(music.getPersonalFmData.id)"
-          />
+            @click="fmPlayOrPause" />
+
+          <n-popover trigger="hover" :keep-alive-on-hover="false">
+            <template #trigger>
+              <n-icon
+                class="next"
+                size="30"
+                :component="SkipNextRound"
+                @click="fmNext" />
+            </template>
+            {{ $t("menu.nextRound") }}
+          </n-popover>
+
+          <n-popover trigger="hover" :keep-alive-on-hover="false">
+            <template #trigger>
+              <n-icon
+                class="dislike"
+                size="20"
+                :component="DeleteRound"
+                @click="music.setFmDislike(music.getPersonalFmData.id)" />
+            </template>
+            {{ $t("menu.fmTrash") }}
+          </n-popover>
+
           <div class="radio">
             <div class="icon">
               <n-icon size="20" :component="RadioFilled" />
@@ -78,7 +84,7 @@ import {
   PlayCircleFilled,
   PauseCircleFilled,
   SkipNextRound,
-  ThumbDownRound,
+  DeleteRound,
   RadioFilled,
 } from "@vicons/material";
 import AllArtists from "@/components/DataList/AllArtists.vue";

@@ -116,6 +116,10 @@ export default {
     unableToDelete: "默认歌单无法删除",
     collection: "收藏{name}",
     cancelCollection: "取消收藏{name}",
+    fmTrash: "将 {name} 从私人 FM 中移除至垃圾桶",
+    nextRound: "下一首",
+    prevRound: "上一首",
+    pause:"暂停播放"
   },
   // 通用
   general: {
